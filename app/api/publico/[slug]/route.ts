@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     .order('nome');
 
   return NextResponse.json({
-    loja: { nome: loja.nome, logo_url: loja.logo_url, cor_tema: loja.cor_tema },
+    loja: { nome: loja.nome, logo_url: loja.logo_url, cor_tema: loja.cor_tema || '#F0B94F' },
     produtos: produtos || []
   });
 }

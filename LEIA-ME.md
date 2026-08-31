@@ -192,6 +192,20 @@ integrar mantendo essa mesma estrutura.
    mensagem educada em vez do cardápio — o cliente final não consegue
    nem ver a loja nesse caso.
 
+## 13. Identidade visual por loja — logo e cor da marca (novo)
+
+1. No painel, vá em ⚙️ **Configurações** — logo no topo tem **"🎨 Identidade
+   visual do seu cardápio"**: toque no círculo pra enviar a logo, e escolha
+   a cor da marca no seletor de cor.
+2. Essas duas coisas aparecem automaticamente no cardápio público
+   (`/pedir/sua-loja`) — banner com a cor escolhida, logo no topo, botões
+   e destaques na mesma cor. Cada loja fica com a cara dela, sem mexer
+   em código nenhum.
+3. A página pública em si foi redesenhada com uma identidade própria
+   (tipografia serifada nos títulos, fundo em tom creme, carrinho com
+   efeito de "recibo" com borda serrilhada) — pensada pra parecer um
+   cardápio de verdade, não uma tela de sistema genérica.
+
 ## O que falta pra ligar o iFood de verdade
 1. Cadastro no Portal do Desenvolvedor iFood (CNPJ com CNAE de tecnologia).
 2. Desenvolver e testar com o app de teste que o iFood libera automaticamente.
@@ -200,4 +214,3 @@ integrar mantendo essa mesma estrutura.
    `/api/ifood/polling`, que já está com o passo a passo comentado no código.
 4. Depois de homologado, preencher `ifood_client_id`, `ifood_client_secret` e
    `ifood_merchant_id` de cada loja na tabela `lojas` e marcar `ifood_conectado = true`.
-

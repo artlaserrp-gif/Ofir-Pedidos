@@ -6,6 +6,9 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
   const [aceitarAutomatico, setAceitarAutomatico] = useState(true);
   const [slug, setSlug] = useState('');
   const [linkCopiado, setLinkCopiado] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [corTema, setCorTema] = useState('#F0B94F');
+  const [enviandoLogo, setEnviandoLogo] = useState(false);
   const [largura, setLargura] = useState<'58mm' | '80mm'>('80mm');
   const [whatsappAtivo, setWhatsappAtivo] = useState(false);
   const [phoneNumberId, setPhoneNumberId] = useState('');
@@ -23,6 +26,8 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
       .then((d) => {
         setAceitarAutomatico(d.aceitar_pedidos_automaticamente !== false);
         setSlug(d.slug || '');
+        setLogoUrl(d.logo_url || null);
+        setCorTema(d.cor_tema || '#F0B94F');
         setLargura(d.largura_papel_impressao === '58mm' ? '58mm' : '80mm');
         setWhatsappAtivo(!!d.whatsapp_notificacoes_ativas);
         setPhoneNumberId(d.whatsapp_phone_number_id || '');
@@ -53,6 +58,25 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
     const novo = !whatsappAtivo;
     setWhatsappAtivo(novo);
     salvarCampo('whatsapp_notificacoes_ativas', novo);
+  }
+
+  async function enviarLogo(e: React.ChangeEvent<HTMLInputElement>) {
+    const arquivo = e.target.files?.[0];
+    if (!arquivo) return;
+    setEnviandoLogo(true);
+    const form = new FormData();
+    form.set('logo', arquivo);
+    const res = await fetch('/api/loja/logo', { method: 'POST', body: form });
+    setEnviandoLogo(false);
+    if (res.ok) {
+      const data = await res.json();
+      setLogoUrl(data.logo_url);
+    }
+  }
+
+  async function alterarCor(nova: string) {
+    setCorTema(nova);
+    salvarCampo('cor_tema', nova);
   }
 
   async function alternarLargura(nova: '58mm' | '80mm') {
@@ -106,6 +130,39 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
           <p className="text-white/40 text-sm py-8 text-center">Carregando...</p>
         ) : (
           <div className="space-y-4">
+            <div className="bg-navy border border-white/10 rounded-xl p-4">
+              <p className="text-sm font-medium mb-3">🎨 Identidade visual do seu cardápio</p>
+              <div className="flex items-center gap-4 mb-4">
+                <label className="shrink-0 cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-navy2 border border-white/15 overflow-hidden flex items-center justify-center">
+                    {logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={logoUrl} alt="Logo" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-white/30 text-[10px] text-center px-1">Sem logo</span>
+                    )}
+                  </div>
+                  <input type="file" accept="image/*" onChange={enviarLogo} className="hidden" />
+                </label>
+                <div className="flex-1">
+                  <p className="text-xs text-white/60 mb-1">
+                    {enviandoLogo ? 'Enviando...' : 'Toque no círculo pra trocar a logo'}
+                  </p>
+                  <p className="text-xs text-white/30">Aparece no cardápio que o cliente final vê</p>
+                </div>
+              </div>
+              <p className="text-xs text-white/60 mb-2">Cor da marca</p>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  value={corTema}
+                  onChange={(e) => alterarCor(e.target.value)}
+                  className="w-10 h-10 rounded-lg overflow-hidden border border-white/15 bg-transparent cursor-pointer"
+                />
+                <span className="text-xs text-white/40 font-mono">{corTema}</span>
+              </div>
+            </div>
+
             <div className="bg-navy border border-gold/40 rounded-xl p-4">
               <p className="text-sm font-medium mb-1">🔗 Link do seu cardápio online</p>
               <p className="text-xs text-white/40 mb-3">

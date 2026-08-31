@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await db
     .from('lojas')
     .select(
-      'nome, slug, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa'
+      'nome, slug, logo_url, cor_tema, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa'
     )
     .eq('id', lojaId)
     .maybeSingle();
@@ -49,6 +49,9 @@ export async function PATCH(req: NextRequest) {
   }
   if (typeof body.impressao_automatica_ativa === 'boolean') {
     atualizacao.impressao_automatica_ativa = body.impressao_automatica_ativa;
+  }
+  if (typeof body.cor_tema === 'string' && /^#[0-9A-Fa-f]{6}$/.test(body.cor_tema)) {
+    atualizacao.cor_tema = body.cor_tema;
   }
 
   const db = supabaseAdmin();
