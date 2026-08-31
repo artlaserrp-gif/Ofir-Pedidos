@@ -1,0 +1,14 @@
+{
+  "name": "ofir-agente-impressora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agente local que busca pedidos na fila do OFIR Pedidos e imprime na impressora térmica da loja.",
+  "main": "imprimir.js",
+  "scripts": {
+    "start": "node imprimir.js"
+  },
+  "dependencies": {
+    "node-thermal-printer": "^4.4.4",
+    "dotenv": "^16.4.5"
+  }
+}
