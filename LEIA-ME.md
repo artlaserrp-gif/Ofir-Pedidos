@@ -200,3 +200,4 @@ integrar mantendo essa mesma estrutura.
    `/api/ifood/polling`, que já está com o passo a passo comentado no código.
 4. Depois de homologado, preencher `ifood_client_id`, `ifood_client_secret` e
    `ifood_merchant_id` de cada loja na tabela `lojas` e marcar `ifood_conectado = true`.
+
