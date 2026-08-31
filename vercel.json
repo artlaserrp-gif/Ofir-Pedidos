@@ -1,1 +1,8 @@
- { "crons": [ { "path": "/api/ifood/polling", "schedule": "0 3 * * *" } ] }
+{
+  "crons": [
+    {
+      "path": "/api/ifood/polling",
+      "schedule": "*/1 * * * *"
+    }
+  ]
+}

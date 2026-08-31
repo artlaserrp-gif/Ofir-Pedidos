@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await db
     .from('lojas')
     .select(
-      'nome, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa'
+      'nome, slug, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa'
     )
     .eq('id', lojaId)
     .maybeSingle();

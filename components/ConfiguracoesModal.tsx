@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void }) {
   const [aceitarAutomatico, setAceitarAutomatico] = useState(true);
+  const [slug, setSlug] = useState('');
+  const [linkCopiado, setLinkCopiado] = useState(false);
   const [largura, setLargura] = useState<'58mm' | '80mm'>('80mm');
   const [whatsappAtivo, setWhatsappAtivo] = useState(false);
   const [phoneNumberId, setPhoneNumberId] = useState('');
@@ -20,6 +22,7 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
       .then((r) => r.json())
       .then((d) => {
         setAceitarAutomatico(d.aceitar_pedidos_automaticamente !== false);
+        setSlug(d.slug || '');
         setLargura(d.largura_papel_impressao === '58mm' ? '58mm' : '80mm');
         setWhatsappAtivo(!!d.whatsapp_notificacoes_ativas);
         setPhoneNumberId(d.whatsapp_phone_number_id || '');
@@ -103,6 +106,38 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
           <p className="text-white/40 text-sm py-8 text-center">Carregando...</p>
         ) : (
           <div className="space-y-4">
+            <div className="bg-navy border border-gold/40 rounded-xl p-4">
+              <p className="text-sm font-medium mb-1">🔗 Link do seu cardápio online</p>
+              <p className="text-xs text-white/40 mb-3">
+                Mande esse link pro seu cliente — ele monta o pedido sozinho, sem precisar de app nem login.
+              </p>
+              <div className="bg-navy2 border border-white/10 rounded-lg px-3 py-2 text-xs break-all mb-2">
+                {typeof window !== 'undefined' ? `${window.location.origin}/pedir/${slug}` : `/pedir/${slug}`}
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}/pedir/${slug}`);
+                    setLinkCopiado(true);
+                    setTimeout(() => setLinkCopiado(false), 2000);
+                  }}
+                  className="flex-1 bg-white/10 rounded-lg py-2 text-xs font-medium"
+                >
+                  {linkCopiado ? 'Copiado!' : 'Copiar link'}
+                </button>
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(
+                    `Peça pelo nosso cardápio online: ${typeof window !== 'undefined' ? window.location.origin : ''}/pedir/${slug}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-green-500/15 text-green-400 rounded-lg py-2 text-xs font-medium text-center"
+                >
+                  Compartilhar no WhatsApp
+                </a>
+              </div>
+            </div>
+
             <div className="bg-navy border border-white/10 rounded-xl p-4">
               <div className="flex items-center justify-between">
                 <div className="pr-4">

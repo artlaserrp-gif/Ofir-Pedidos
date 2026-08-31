@@ -26,6 +26,22 @@ export async function POST(req: NextRequest) {
   const trialExpiraEm = new Date();
   trialExpiraEm.setDate(trialExpiraEm.getDate() + 14);
 
+  const slugBase = nome
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  let slug = slugBase || 'loja';
+  let sufixo = 0;
+  while (true) {
+    const { data: existeSlug } = await db.from('lojas').select('id').eq('slug', slug).maybeSingle();
+    if (!existeSlug) break;
+    sufixo += 1;
+    slug = `${slugBase}-${sufixo}`;
+  }
+
   const { data: loja, error } = await db
     .from('lojas')
     .insert({
@@ -35,7 +51,8 @@ export async function POST(req: NextRequest) {
       pin,
       plano: 'trial',
       ativo: true,
-      trial_expira_em: trialExpiraEm.toISOString()
+      trial_expira_em: trialExpiraEm.toISOString(),
+      slug
     })
     .select()
     .single();

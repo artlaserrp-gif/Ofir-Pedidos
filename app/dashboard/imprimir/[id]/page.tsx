@@ -23,7 +23,8 @@ type Pedido = {
 const ORIGEM_LABEL: Record<string, string> = {
   ifood: 'iFOOD',
   balcao: 'BALCÃO',
-  delivery_proprio: 'ENTREGA PRÓPRIA'
+  delivery_proprio: 'ENTREGA PRÓPRIA',
+  cliente_online: 'PEDIDO ONLINE'
 };
 
 export default function ImprimirPedidoPage({ params }: { params: { id: string } }) {

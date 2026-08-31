@@ -172,6 +172,26 @@ integrar mantendo essa mesma estrutura.
 4. Funciona com Elgin, Epson, Bematech, Tanca, Daruma e a maioria das
    térmicas — todas usam o mesmo protocolo ESC/POS.
 
+## 12. Cardápio online — cliente final faz o pedido sozinho (novo)
+
+1. Rode também `migracao-pedido-online.sql` no Supabase (isso já gera um
+   link pra qualquer loja que você tiver cadastrado antes).
+2. Toda empresa nova cadastrada em `/cadastro` já ganha esse link
+   automaticamente, sem precisar configurar nada.
+3. No painel, vá em ⚙️ **Configurações** — logo no topo tem o link
+   completo, com botão de **copiar** e de **compartilhar no WhatsApp**.
+   É esse link que você manda pro cliente final.
+4. O cliente abre o link, vê o cardápio com fotos, monta o carrinho,
+   preenche nome/telefone/endereço (se for entrega) e confirma — sem
+   precisar de login nem instalar nada.
+5. O pedido cai automaticamente no seu painel como **"Pedido online"**
+   (cor verde), já em "Recebido", com impressão automática (se
+   estiver ligada) e confirmação por WhatsApp pro cliente (se
+   configurado).
+6. Se a loja estiver bloqueada ou o trial vencido, o link mostra uma
+   mensagem educada em vez do cardápio — o cliente final não consegue
+   nem ver a loja nesse caso.
+
 ## O que falta pra ligar o iFood de verdade
 1. Cadastro no Portal do Desenvolvedor iFood (CNPJ com CNAE de tecnologia).
 2. Desenvolver e testar com o app de teste que o iFood libera automaticamente.

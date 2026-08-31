@@ -6,7 +6,8 @@ import type { Pedido } from '@/app/dashboard/page';
 const ORIGEM_LABEL: Record<string, { texto: string; cor: string }> = {
   ifood: { texto: 'iFood', cor: 'bg-red-500/20 text-red-400 border-red-500/40' },
   balcao: { texto: 'Balcão', cor: 'bg-gold/20 text-gold border-gold/40' },
-  delivery_proprio: { texto: 'Entrega própria', cor: 'bg-blue/20 text-blue border-blue/40' }
+  delivery_proprio: { texto: 'Entrega própria', cor: 'bg-blue/20 text-blue border-blue/40' },
+  cliente_online: { texto: 'Pedido online', cor: 'bg-green-500/20 text-green-400 border-green-500/40' }
 };
 
 const PROXIMO_STATUS: Record<string, { chave: string; texto: string } | null> = {

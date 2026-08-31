@@ -6,7 +6,8 @@ import { formatarDataHoraBrasil } from '@/lib/brazilTime';
 const ORIGEM_COR: Record<string, string> = {
   ifood: 'text-red-400',
   balcao: 'text-gold',
-  delivery_proprio: 'text-blue'
+  delivery_proprio: 'text-blue',
+  cliente_online: 'text-green-400'
 };
 
 type Dados = {

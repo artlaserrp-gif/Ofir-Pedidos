@@ -4,7 +4,8 @@ import { supabaseAdmin } from '@/lib/supabase';
 const ORIGEM_LABEL: Record<string, string> = {
   ifood: 'iFOOD',
   balcao: 'BALCÃO',
-  delivery_proprio: 'ENTREGA PRÓPRIA'
+  delivery_proprio: 'ENTREGA PRÓPRIA',
+  cliente_online: 'PEDIDO ONLINE'
 };
 
 // Consultada pelo agente local (programinha na loja), autenticada por um

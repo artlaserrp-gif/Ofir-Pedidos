@@ -4,7 +4,8 @@ import { supabaseAdmin } from '@/lib/supabase';
 const ORIGEM_LABEL: Record<string, string> = {
   ifood: 'iFood',
   balcao: 'Balcão',
-  delivery_proprio: 'Entrega própria'
+  delivery_proprio: 'Entrega própria',
+  cliente_online: 'Pedido online'
 };
 
 export async function GET(req: NextRequest) {
