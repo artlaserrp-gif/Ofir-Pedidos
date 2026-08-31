@@ -8,12 +8,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const form = await req.formData();
   const nome = form.get('nome') as string;
   const categoria = (form.get('categoria') as string) || null;
+  const descricao = (form.get('descricao') as string) || null;
   const preco = Number(form.get('preco'));
   const ativo = form.get('ativo') !== 'false';
   const arquivo = form.get('imagem') as File | null;
 
   const db = supabaseAdmin();
-  const atualizacao: Record<string, unknown> = { nome: nome?.trim(), categoria, preco, ativo };
+  const atualizacao: Record<string, unknown> = { nome: nome?.trim(), categoria, descricao, preco, ativo };
 
   if (arquivo && arquivo.size > 0) {
     const extensao = arquivo.name.split('.').pop() || 'jpg';

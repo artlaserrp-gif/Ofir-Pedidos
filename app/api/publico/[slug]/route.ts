@@ -19,7 +19,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
 
   const { data: produtos } = await db
     .from('produtos')
-    .select('id, nome, categoria, preco, imagem_url')
+    .select('id, nome, categoria, descricao, preco, imagem_url')
     .eq('loja_id', loja.id)
     .eq('ativo', true)
     .order('categoria')

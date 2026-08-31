@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-type Produto = { id: string; nome: string; categoria: string | null; preco: number; imagem_url: string | null };
+type Produto = { id: string; nome: string; categoria: string | null; descricao: string | null; preco: number; imagem_url: string | null };
 type ItemCarrinho = { produto_id: string; nome: string; preco: number; quantidade: number };
 type Loja = { nome: string; logo_url: string | null; cor_tema: string };
 
@@ -270,7 +270,12 @@ export default function CardapioPublico({ params }: { params: { slug: string } }
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[#241C15] truncate">{produto.nome}</p>
-                      <p className="text-sm font-semibold mt-0.5" style={{ color: cor }}>
+                      {produto.descricao && (
+                        <p className="text-[11px] text-[#A0937E] line-clamp-2 mt-0.5 leading-snug">
+                          {produto.descricao}
+                        </p>
+                      )}
+                      <p className="text-sm font-semibold mt-1" style={{ color: cor }}>
                         R$ {produto.preco.toFixed(2).replace('.', ',')}
                       </p>
                     </div>

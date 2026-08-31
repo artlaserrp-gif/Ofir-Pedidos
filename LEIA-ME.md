@@ -206,6 +206,17 @@ integrar mantendo essa mesma estrutura.
    efeito de "recibo" com borda serrilhada) — pensada pra parecer um
    cardápio de verdade, não uma tela de sistema genérica.
 
+## 14. Ingredientes e categorias sugeridas (novo)
+
+1. Rode também `migracao-descricao-produto.sql` no Supabase.
+2. Ao cadastrar um item do cardápio, agora tem um campo de **ingredientes/
+   descrição** (ex: "pão brioche, hambúrguer 180g, queijo, alface,
+   tomate") — aparece tanto no seu painel quanto no cardápio que o
+   cliente final vê.
+3. A categoria agora tem sugestões em botões (Lanches, Porções, Bebidas,
+   Sobremesas, Combos, Pratos, Pizzas) — toca pra escolher rápido, ou
+   digita a sua própria categoria se nenhuma servir.
+
 ## O que falta pra ligar o iFood de verdade
 1. Cadastro no Portal do Desenvolvedor iFood (CNPJ com CNAE de tecnologia).
 2. Desenvolver e testar com o app de teste que o iFood libera automaticamente.

@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
   const form = await req.formData();
   const nome = form.get('nome') as string;
   const categoria = (form.get('categoria') as string) || null;
+  const descricao = (form.get('descricao') as string) || null;
   const preco = Number(form.get('preco'));
   const arquivo = form.get('imagem') as File | null;
 
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
 
   const { data, error } = await db
     .from('produtos')
-    .insert({ loja_id: lojaId, nome: nome.trim(), categoria, preco, imagem_url })
+    .insert({ loja_id: lojaId, nome: nome.trim(), categoria, descricao, preco, imagem_url })
     .select()
     .single();
 

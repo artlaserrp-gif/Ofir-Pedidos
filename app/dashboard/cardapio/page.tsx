@@ -78,6 +78,9 @@ export default function CardapioPage() {
                     </div>
                     <div className="p-2.5">
                       <p className="text-sm font-medium truncate">{produto.nome}</p>
+                      {produto.descricao && (
+                        <p className="text-white/40 text-[11px] line-clamp-2 mt-0.5">{produto.descricao}</p>
+                      )}
                       <p className="text-gold text-sm font-semibold mt-0.5">
                         R$ {produto.preco.toFixed(2).replace('.', ',')}
                       </p>

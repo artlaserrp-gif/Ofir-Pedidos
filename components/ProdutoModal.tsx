@@ -6,10 +6,13 @@ export type Produto = {
   id: string;
   nome: string;
   categoria: string | null;
+  descricao: string | null;
   preco: number;
   imagem_url: string | null;
   ativo: boolean;
 };
+
+const CATEGORIAS_SUGERIDAS = ['Lanches', 'Porções', 'Bebidas', 'Sobremesas', 'Combos', 'Pratos', 'Pizzas'];
 
 export default function ProdutoModal({
   produto,
@@ -22,6 +25,7 @@ export default function ProdutoModal({
 }) {
   const [nome, setNome] = useState(produto?.nome || '');
   const [categoria, setCategoria] = useState(produto?.categoria || '');
+  const [descricao, setDescricao] = useState(produto?.descricao || '');
   const [preco, setPreco] = useState(produto?.preco?.toString() || '');
   const [arquivo, setArquivo] = useState<File | null>(null);
   const [previa, setPrevia] = useState<string | null>(produto?.imagem_url || null);
@@ -46,6 +50,7 @@ export default function ProdutoModal({
     const form = new FormData();
     form.set('nome', nome);
     form.set('categoria', categoria);
+    form.set('descricao', descricao);
     form.set('preco', preco);
     form.set('ativo', 'true');
     if (arquivo) form.set('imagem', arquivo);
@@ -100,12 +105,37 @@ export default function ProdutoModal({
           placeholder="Nome do item"
           className="w-full bg-navy border border-white/10 rounded-xl px-3 py-2.5 mb-3 outline-none focus:border-gold"
         />
+
+        <p className="text-xs text-white/40 mb-1.5">Categoria</p>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {CATEGORIAS_SUGERIDAS.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategoria(cat)}
+              className={`text-xs rounded-full px-3 py-1.5 border transition ${
+                categoria === cat ? 'bg-gold text-navy border-gold font-semibold' : 'border-white/15 text-white/50'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
         <input
           value={categoria}
           onChange={(e) => setCategoria(e.target.value)}
-          placeholder="Categoria (ex: Lanches, Bebidas)"
+          placeholder="Ou digite uma categoria própria"
           className="w-full bg-navy border border-white/10 rounded-xl px-3 py-2.5 mb-3 outline-none focus:border-gold"
         />
+
+        <textarea
+          value={descricao}
+          onChange={(e) => setDescricao(e.target.value)}
+          placeholder="Ingredientes / descrição (ex: pão brioche, hambúrguer 180g, queijo, alface, tomate)"
+          rows={3}
+          className="w-full bg-navy border border-white/10 rounded-xl px-3 py-2.5 mb-3 outline-none focus:border-gold resize-none"
+        />
+
         <input
           value={preco}
           onChange={(e) => setPreco(e.target.value)}
