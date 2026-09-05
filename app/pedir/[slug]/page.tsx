@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 type Produto = { id: string; nome: string; categoria: string | null; descricao: string | null; preco: number; imagem_url: string | null };
 type ItemCarrinho = { produto_id: string; nome: string; preco: number; quantidade: number };
-type Loja = { nome: string; logo_url: string | null; cor_tema: string };
+type Loja = { nome: string; logo_url: string | null; cor_tema: string; tempo_estimado_balcao?: string; tempo_estimado_entrega?: string };
 
 // decide se o texto em cima da cor da marca deve ser escuro ou claro
 function corDeTextoLegivel(hex: string): string {
@@ -222,6 +222,12 @@ export default function CardapioPublico({ params }: { params: { slug: string } }
           <p className="text-xs mt-1 opacity-80" style={{ color: corTexto }}>
             Monte seu pedido abaixo
           </p>
+          {(loja?.tempo_estimado_balcao || loja?.tempo_estimado_entrega) && (
+            <div className="flex items-center justify-center gap-3 mt-2 text-[11px] opacity-70" style={{ color: corTexto }}>
+              {loja?.tempo_estimado_balcao && <span>🏪 Retirada: {loja.tempo_estimado_balcao}</span>}
+              {loja?.tempo_estimado_entrega && <span>🛵 Entrega: {loja.tempo_estimado_entrega}</span>}
+            </div>
+          )}
         </div>
       </div>
 

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
 
   const { data: loja } = await db
     .from('lojas')
-    .select('id, nome, ativo, plano, trial_expira_em, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas')
+    .select('id, nome, ativo, plano, trial_expira_em, aberto_manual, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas')
     .eq('slug', params.slug)
     .maybeSingle();
 
@@ -30,6 +30,9 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const trialVencido = loja.plano === 'trial' && loja.trial_expira_em && new Date(loja.trial_expira_em) < new Date();
   if (!loja.ativo || trialVencido) {
     return NextResponse.json({ erro: 'Essa loja não está aceitando pedidos no momento.' }, { status: 403 });
+  }
+  if (loja.aberto_manual === false) {
+    return NextResponse.json({ erro: 'A loja fechou temporariamente enquanto você montava o pedido. Tente mais tarde.' }, { status: 423 });
   }
 
   // recalcula preço no servidor a partir do cardápio real — nunca confia no preço mandado pelo navegador

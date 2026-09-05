@@ -9,6 +9,8 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [corTema, setCorTema] = useState('#F0B94F');
   const [enviandoLogo, setEnviandoLogo] = useState(false);
+  const [tempoBalcao, setTempoBalcao] = useState('');
+  const [tempoEntrega, setTempoEntrega] = useState('');
   const [largura, setLargura] = useState<'58mm' | '80mm'>('80mm');
   const [whatsappAtivo, setWhatsappAtivo] = useState(false);
   const [phoneNumberId, setPhoneNumberId] = useState('');
@@ -28,6 +30,8 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
         setSlug(d.slug || '');
         setLogoUrl(d.logo_url || null);
         setCorTema(d.cor_tema || '#F0B94F');
+        setTempoBalcao(d.tempo_estimado_balcao || '');
+        setTempoEntrega(d.tempo_estimado_entrega || '');
         setLargura(d.largura_papel_impressao === '58mm' ? '58mm' : '80mm');
         setWhatsappAtivo(!!d.whatsapp_notificacoes_ativas);
         setPhoneNumberId(d.whatsapp_phone_number_id || '');
@@ -161,6 +165,26 @@ export default function ConfiguracoesModal({ onFechar }: { onFechar: () => void 
                 />
                 <span className="text-xs text-white/40 font-mono">{corTema}</span>
               </div>
+            </div>
+
+            <div className="bg-navy border border-white/10 rounded-xl p-4">
+              <p className="text-sm font-medium mb-3">⏱ Tempo estimado de preparo</p>
+              <p className="text-xs text-white/60 mb-1">Balcão / retirada</p>
+              <input
+                value={tempoBalcao}
+                onChange={(e) => setTempoBalcao(e.target.value)}
+                onBlur={() => salvarCampo('tempo_estimado_balcao', tempoBalcao)}
+                placeholder="Ex: 20 a 30 min"
+                className="w-full bg-navy2 border border-white/10 rounded-lg px-3 py-2 text-sm mb-3 outline-none focus:border-gold"
+              />
+              <p className="text-xs text-white/60 mb-1">Entrega</p>
+              <input
+                value={tempoEntrega}
+                onChange={(e) => setTempoEntrega(e.target.value)}
+                onBlur={() => salvarCampo('tempo_estimado_entrega', tempoEntrega)}
+                placeholder="Ex: 40 a 60 min"
+                className="w-full bg-navy2 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-gold"
+              />
             </div>
 
             <div className="bg-navy border border-gold/40 rounded-xl p-4">

@@ -1,13 +1,12 @@
 'use client';
 
-import { formatarHoraBrasil } from '@/lib/brazilTime';
 import type { Pedido } from '@/app/dashboard/page';
 
 const ORIGEM_LABEL: Record<string, { texto: string; cor: string }> = {
-  ifood: { texto: 'iFood', cor: 'bg-red-500/20 text-red-400 border-red-500/40' },
-  balcao: { texto: 'Balcão', cor: 'bg-gold/20 text-gold border-gold/40' },
-  delivery_proprio: { texto: 'Entrega própria', cor: 'bg-blue/20 text-blue border-blue/40' },
-  cliente_online: { texto: 'Pedido online', cor: 'bg-green-500/20 text-green-400 border-green-500/40' }
+  ifood: { texto: 'iFood', cor: 'bg-red-100 text-red-600' },
+  balcao: { texto: 'Balcão', cor: 'bg-amber-100 text-amber-700' },
+  delivery_proprio: { texto: 'Entrega própria', cor: 'bg-blue-100 text-blue-700' },
+  cliente_online: { texto: 'Pedido online', cor: 'bg-emerald-100 text-emerald-700' }
 };
 
 const PROXIMO_STATUS: Record<string, { chave: string; texto: string } | null> = {
@@ -19,11 +18,13 @@ const PROXIMO_STATUS: Record<string, { chave: string; texto: string } | null> = 
 
 export default function PedidoCard({
   pedido,
+  tempoTexto,
   onAvancar,
   onDespachar,
   onVerMapa
 }: {
   pedido: Pedido;
+  tempoTexto: string;
   onAvancar: (id: string, status: string) => void;
   onDespachar: (pedido: Pedido) => void;
   onVerMapa: (pedido: Pedido) => void;
@@ -42,15 +43,15 @@ export default function PedidoCard({
   }
 
   return (
-    <div className="bg-navy rounded-xl border border-white/10 p-3">
+    <div className="bg-white rounded-xl p-3 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
       <div className="flex items-center justify-between mb-2">
-        <span className="font-bold text-sm">#{pedido.numero_pedido}</span>
-        <span className={`text-[10px] border rounded-full px-2 py-0.5 ${origem.cor}`}>{origem.texto}</span>
+        <span className="font-bold text-sm text-black/80">#{pedido.numero_pedido}</span>
+        <span className={`text-[10px] font-medium rounded-full px-2 py-0.5 ${origem.cor}`}>{origem.texto}</span>
       </div>
 
-      {pedido.cliente_nome && <p className="text-sm text-white/80">{pedido.cliente_nome}</p>}
+      {pedido.cliente_nome && <p className="text-sm text-black/70">{pedido.cliente_nome}</p>}
 
-      <ul className="text-xs text-white/50 mt-1.5 space-y-0.5">
+      <ul className="text-xs text-black/45 mt-1.5 space-y-0.5">
         {pedido.pedido_itens?.map((item, i) => (
           <li key={i}>
             {item.quantidade}x {item.nome_produto}
@@ -59,8 +60,8 @@ export default function PedidoCard({
       </ul>
 
       <div className="flex items-center justify-between mt-2.5">
-        <span className="text-xs text-white/40">{formatarHoraBrasil(pedido.created_at)}</span>
-        <span className="text-sm font-semibold text-gold">
+        <span className="text-[11px] text-black/35">{tempoTexto}</span>
+        <span className="text-sm font-semibold text-black/80">
           R$ {pedido.valor_total?.toFixed(2).replace('.', ',')}
         </span>
       </div>
@@ -68,32 +69,33 @@ export default function PedidoCard({
       {temRastreio && (
         <button
           onClick={() => onVerMapa(pedido)}
-          className="w-full mt-3 bg-blue/15 border border-blue/30 text-blue rounded-lg py-2 text-xs font-medium active:scale-[0.98] transition"
+          className="w-full mt-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg py-2 text-xs font-medium active:scale-[0.98] transition"
         >
           📍 Ver entregador no mapa
         </button>
       )}
 
-      <button
-        onClick={() => window.open(`/dashboard/imprimir/${pedido.id}`, '_blank')}
-        className="w-full mt-2 bg-white/5 border border-white/10 text-white/60 rounded-lg py-2 text-xs font-medium active:scale-[0.98] transition"
-      >
-        🖨 Imprimir ticket
-      </button>
-
-      <button
-        onClick={() => fetch(`/api/impressao/enfileirar/${pedido.id}`, { method: 'POST' })}
-        className="w-full mt-2 bg-white/5 border border-white/10 text-white/40 rounded-lg py-1.5 text-[11px] active:scale-[0.98] transition"
-      >
-        Reenviar pra impressora automática
-      </button>
+      <div className="flex gap-1.5 mt-2">
+        <button
+          onClick={() => window.open(`/dashboard/imprimir/${pedido.id}`, '_blank')}
+          className="flex-1 bg-black/5 text-black/50 rounded-lg py-2 text-[11px] font-medium active:scale-[0.98] transition"
+        >
+          🖨 Imprimir
+        </button>
+        <button
+          onClick={() => fetch(`/api/impressao/enfileirar/${pedido.id}`, { method: 'POST' })}
+          className="flex-1 bg-black/5 text-black/40 rounded-lg py-2 text-[11px] active:scale-[0.98] transition"
+        >
+          Reenviar fila
+        </button>
+      </div>
 
       {proximo && (
         <button
           onClick={tocarProximo}
-          className="w-full mt-2 bg-white/10 hover:bg-white/15 rounded-lg py-2 text-xs font-medium active:scale-[0.98] transition"
+          className="w-full mt-2 bg-navy text-white rounded-lg py-2.5 text-xs font-semibold active:scale-[0.98] transition"
         >
-          {proximo.texto}
+          {proximo.texto} →
         </button>
       )}
     </div>

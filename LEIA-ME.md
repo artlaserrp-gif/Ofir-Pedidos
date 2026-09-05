@@ -217,6 +217,24 @@ integrar mantendo essa mesma estrutura.
    Sobremesas, Combos, Pratos, Pizzas) — toca pra escolher rápido, ou
    digita a sua própria categoria se nenhuma servir.
 
+## 15. Painel de pedidos redesenhado + loja aberta/fechada (novo)
+
+1. Rode também `migracao-status-loja.sql` no Supabase.
+2. O painel de pedidos ganhou visual novo: colunas coloridas cheias
+   (laranja "Em análise", amarelo "Em produção", verde "Pronto p/
+   entrega", azul "Saiu p/ entrega"), barra superior com busca por
+   número do pedido ou nome do cliente, e botão "+ Novo pedido" fixo.
+3. **Loja aberta/fechada**: toque no indicador verde/vermelho no canto
+   superior esquerdo do painel pra pausar novos pedidos temporariamente
+   (ex: fim de expediente, imprevisto na cozinha). Com a loja fechada, o
+   cardápio público mostra "A loja está fechada temporariamente" pro
+   cliente final, sem deixar ele finalizar pedido. Isso é diferente de
+   bloquear por falta de pagamento — é um botão rápido que a própria
+   loja controla, a qualquer momento.
+4. **Tempo estimado de preparo**: em ⚙️ Configurações, defina o tempo de
+   balcão/retirada e de entrega (ex: "20 a 30 min"). Aparece tanto no
+   topo do seu painel quanto no cardápio que o cliente final vê.
+
 ## O que falta pra ligar o iFood de verdade
 1. Cadastro no Portal do Desenvolvedor iFood (CNPJ com CNAE de tecnologia).
 2. Desenvolver e testar com o app de teste que o iFood libera automaticamente.

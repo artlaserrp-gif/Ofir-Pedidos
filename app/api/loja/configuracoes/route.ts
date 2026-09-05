@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await db
     .from('lojas')
     .select(
-      'nome, slug, logo_url, cor_tema, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa'
+      'nome, slug, logo_url, cor_tema, aceitar_pedidos_automaticamente, ifood_conectado, whatsapp_phone_number_id, whatsapp_access_token, whatsapp_notificacoes_ativas, largura_papel_impressao, impressao_api_token, impressao_automatica_ativa, aberto_manual, tempo_estimado_balcao, tempo_estimado_entrega'
     )
     .eq('id', lojaId)
     .maybeSingle();
@@ -52,6 +52,15 @@ export async function PATCH(req: NextRequest) {
   }
   if (typeof body.cor_tema === 'string' && /^#[0-9A-Fa-f]{6}$/.test(body.cor_tema)) {
     atualizacao.cor_tema = body.cor_tema;
+  }
+  if (typeof body.aberto_manual === 'boolean') {
+    atualizacao.aberto_manual = body.aberto_manual;
+  }
+  if (typeof body.tempo_estimado_balcao === 'string') {
+    atualizacao.tempo_estimado_balcao = body.tempo_estimado_balcao;
+  }
+  if (typeof body.tempo_estimado_entrega === 'string') {
+    atualizacao.tempo_estimado_entrega = body.tempo_estimado_entrega;
   }
 
   const db = supabaseAdmin();

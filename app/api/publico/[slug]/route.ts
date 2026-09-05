@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
 
   const { data: loja } = await db
     .from('lojas')
-    .select('id, nome, logo_url, cor_tema, ativo, plano, trial_expira_em')
+    .select('id, nome, logo_url, cor_tema, ativo, plano, trial_expira_em, aberto_manual, tempo_estimado_balcao, tempo_estimado_entrega')
     .eq('slug', params.slug)
     .maybeSingle();
 
@@ -15,6 +15,9 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
   const trialVencido = loja.plano === 'trial' && loja.trial_expira_em && new Date(loja.trial_expira_em) < new Date();
   if (!loja.ativo || trialVencido) {
     return NextResponse.json({ erro: 'Essa loja não está aceitando pedidos no momento.' }, { status: 403 });
+  }
+  if (loja.aberto_manual === false) {
+    return NextResponse.json({ erro: 'A loja está fechada temporariamente. Volte mais tarde!' }, { status: 423 });
   }
 
   const { data: produtos } = await db
@@ -26,7 +29,13 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     .order('nome');
 
   return NextResponse.json({
-    loja: { nome: loja.nome, logo_url: loja.logo_url, cor_tema: loja.cor_tema || '#F0B94F' },
+    loja: {
+      nome: loja.nome,
+      logo_url: loja.logo_url,
+      cor_tema: loja.cor_tema || '#F0B94F',
+      tempo_estimado_balcao: loja.tempo_estimado_balcao,
+      tempo_estimado_entrega: loja.tempo_estimado_entrega
+    },
     produtos: produtos || []
   });
 }
